@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1020"><title>PC Savings Tracker</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<main class="shell">
+  <header class="topbar"><div><div class="eyebrow">PERSONAL SAVINGS SYSTEM</div><h1>PC Savings Tracker</h1></div><div class="top-actions"><span id="version" class="tag">v1.0.0</span><button id="checkUpdate" class="btn ghost hidden">Check updates</button></div></header>
+  <p class="muted intro">A focused savings dashboard. PC fund first; secondary reserve capped at Rp150,000.</p>
+
+  <section id="authView" class="panel auth-panel">
+    <div class="tabs"><button id="loginTab" class="tab active">Sign in</button><button id="registerTab" class="tab">Create account</button></div>
+    <form id="authForm">
+      <label>Username<input id="authUsername" autocomplete="username" minlength="3" maxlength="24" required placeholder="3–24 letters, numbers or underscores"></label>
+      <label>Access code<input id="authCode" type="password" autocomplete="current-password" minlength="8" maxlength="128" required placeholder="At least 8 characters"></label>
+      <p id="authHint" class="hint">Sign in with your username and access code.</p>
+      <button class="btn primary full" id="authSubmit">Sign in</button>
+    </form>
+    <p id="authMessage" class="message" role="status"></p>
+    <p class="tiny muted">No email or phone number. Keep your access code safe: there is no email-based recovery.</p>
+  </section>
+
+  <section id="dashboard" class="hidden">
+    <div class="welcome-row"><div><span class="muted tiny">SIGNED IN AS</span><strong id="welcomeUser">—</strong></div><div class="row"><button id="settingsBtn" class="btn ghost">Account settings</button><button id="logoutBtn" class="btn ghost">Log out</button></div></div>
+    <div class="cards">
+      <article class="panel"><div class="muted label">PC fund balance</div><div id="pcBalance" class="big green">Rp0</div><div class="progress"><div id="progressBar"></div></div><div id="progressText" class="tiny muted">0% of Rp10,000,000</div></article>
+      <article class="panel"><div class="muted label">Secondary balance</div><div id="secondaryBalance" class="big">Rp0</div><div class="tiny muted">Threshold: Rp150,000</div><div class="secondary-track"><div id="secondaryBar"></div></div></article>
+    </div>
+    <article class="panel section">
+      <h2>Add incoming money</h2><p class="muted tiny">The server calculates and saves each transaction.</p>
+      <form id="transactionForm" class="transaction-form">
+        <label>Incoming amount (Rp)<input id="incoming" type="number" min="1" step="1" required placeholder="e.g. 100000"></label>
+        <label>Note (optional)<input id="note" maxlength="60" placeholder="e.g. Weekly allowance"></label>
+        <button class="btn primary">Preview distribution</button>
+      </form>
+      <div id="preview" class="preview muted">Your calculation will appear here.</div>
+      <button id="confirmTransaction" class="btn primary hidden">Confirm and save transaction</button>
+      <p id="transactionMessage" class="message" role="status"></p>
+    </article>
+    <article class="panel section">
+      <div class="section-head"><div><h2>Transaction history</h2><p class="tiny muted">Latest 100 transactions</p></div><button id="refreshHistory" class="btn ghost">Refresh</button></div>
+      <div id="history" class="table-wrap"><p class="muted">Loading…</p></div>
+    </article>
+    <article class="panel section">
+      <h2>Allocation rules</h2>
+      <ul class="rules">
+        <li>Secondary savings fill only until they reach Rp150,000.</li>
+        <li>At the threshold, Rp150,000 splits: Rp75,000 goes to PC and Rp75,000 remains secondary.</li>
+        <li>All remaining incoming money goes directly to PC funds.</li>
+        <li>Remaining money does not refill secondary savings during that transaction.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section id="settings" class="panel section hidden">
+    <div class="section-head"><h2>Account settings</h2><button id="closeSettings" class="btn ghost">Close</button></div>
+    <p class="muted tiny">Changing either credential requires your current access code.</p>
+    <form id="credentialsForm" class="stack">
+      <label>Current access code<input id="currentCode" type="password" required autocomplete="current-password"></label>
+      <label>New username (optional)<input id="newUsername" minlength="3" maxlength="24" placeholder="Leave blank to keep current username"></label>
+      <label>New access code (optional)<input id="newCode" type="password" minlength="8" maxlength="128" placeholder="At least 8 characters"></label>
+      <button class="btn primary">Save credential changes</button>
+    </form>
+    <hr>
+    <h3>Starting balance correction</h3><p class="tiny muted">For initial setup or correcting test data. Secondary must be below Rp150,000.</p>
+    <form id="balancesForm" class="stack">
+      <label>PC fund balance (Rp)<input id="editPc" type="number" min="0" step="1" required></label>
+      <label>Secondary balance (Rp)<input id="editSecondary" type="number" min="0" max="149999" step="1" required></label>
+      <button class="btn ghost">Save balances</button>
+    </form>
+    <p id="settingsMessage" class="message" role="status"></p>
+  </section>
+  <footer class="footer muted tiny">Your account data is stored on the server. Always sign out on shared devices.</footer>
+</main>
+
+<div id="updateBanner" class="update-banner hidden" role="dialog" aria-live="polite">
+  <div class="update-card"><div class="eyebrow">WEBSITE UPDATE</div><h2>Update available</h2><p id="updateSummary" class="muted"></p><ul id="updateChanges"></ul><div class="row"><button id="laterUpdate" class="btn ghost">Later</button><button id="applyUpdate" class="btn primary">Update now</button></div></div>
+</div>
+<script src="/app.js" defer></script>
+</body></html>

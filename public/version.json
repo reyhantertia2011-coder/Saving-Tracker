@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "changelog": [
+    "Initial account-based PC Savings Tracker release.",
+    "Username and access-code registration and login.",
+    "PC savings allocation with Rp150,000 secondary threshold.",
+    "Manual update notification framework."
+  ]
+}
